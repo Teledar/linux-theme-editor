@@ -7,7 +7,7 @@ const App = () => {
   return (
     <>
       <h1>Linux Theme Editor</h1>
-      <WindowSimulation titleBarColor={titleBarColor} />
+      <WindowSimulation titleBarColor={titleBarColor} maximized={false} />
     </>
   )
 }
