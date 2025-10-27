@@ -9,7 +9,7 @@ const TitleBar = (props) => {
 
   return (
     <div style={style}>
-      
+      <p style={{margin: 0, color: 'white'}}>Title</p>
     </div>
   )
 } 
@@ -21,17 +21,18 @@ const WindowSimulation = (props) => {
   }
 
   const contentStyle = {
-    ...props.windowStyle,
+    ...props.style,
     position: 'absolute',
-    top: props.titleBarStyle.height,
+    top: props.style.titleBar.height,
     left: 0,
     right: 0,
     bottom: 0,
   }
+  delete contentStyle.titleBar
 
   return (
     <div style={style}>
-      <TitleBar style={props.titleBarStyle} />
+      <TitleBar style={props.style.titleBar} />
       <div style={contentStyle}>
 
       </div>
