@@ -10,6 +10,29 @@ const defaultTitleBarStyle = {
   textAlign: 'center',
 }
 
+const defaultWindowButtons = [
+  {
+    name: 'close',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 20,
+    height: 20,
+    image: '/src/assets/close.svg',
+    hoverImage: '/src/assets/close-hover.svg',
+  },
+  {
+    name: 'minimize',
+    position: 'absolute',
+    top: 0,
+    right: 40,
+    width: 20,
+    height: 20,
+    image: '/src/assets/minimize.svg',
+    hoverImage: '/src/assets/minimize-hover.svg',
+  },
+]
+
 const defaultStyle = {
   window: {
     ...defaultWindowStyle,
@@ -24,6 +47,19 @@ const defaultStyle = {
       backgroundColor: 'black',
       borderTopLeftRadius: 5,
       borderTopRightRadius: 5,
+      buttons: [
+        ...defaultWindowButtons,
+        {
+          name: 'maximize',
+          position: 'absolute',
+          top: 0,
+          right: 20,
+          width: 20,
+          height: 20,
+          image: '/src/assets/maximize.svg',
+          hoverImage: '/src/assets/maximize-hover.svg',
+        }
+      ],
     },
   },
   unfocusedWindow: {
@@ -36,9 +72,22 @@ const defaultStyle = {
     borderBottomRightRadius: 5,
     titleBar: {
       ...defaultTitleBarStyle,
-      backgroundColor: 'gray',
+      backgroundColor: 'dimgray',
       borderTopLeftRadius: 5,
       borderTopRightRadius: 5,
+      buttons: [
+        ...defaultWindowButtons,
+        {
+          name: 'maximize',
+          position: 'absolute',
+          top: 0,
+          right: 20,
+          width: 20,
+          height: 20,
+          image: '/src/assets/maximize.svg',
+          hoverImage: '/src/assets/maximize-hover.svg',
+        },
+      ],
     },
   },
   maximizedWindow: {
@@ -49,7 +98,20 @@ const defaultStyle = {
     borderBottom: 'none',
     titleBar: {
       ...defaultTitleBarStyle,
-      backgroundColor: 'gray',
+      backgroundColor: 'dimgray',
+      buttons: [
+        ...defaultWindowButtons,
+        {
+          name: 'restore',
+          position: 'absolute',
+          top: 0,
+          right: 20,
+          width: 20,
+          height: 20,
+          image: '/src/assets/restore.svg',
+          hoverImage: '/src/assets/restore-hover.svg',
+        },
+      ],
     },
   },
 }

@@ -1,0 +1,11 @@
+span.window-button div.hover {
+  display: none;
+}
+
+span.window-button:hover div.normal {
+  display: none;
+}
+
+span.window-button:hover div.hover {
+  display: block;
+}

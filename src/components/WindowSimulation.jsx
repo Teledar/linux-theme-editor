@@ -1,3 +1,29 @@
+import './WindowSimulation.css'
+
+const TitleBarButton = (props) => {
+
+  const style = {
+    ...props.style,
+    background: `url('${props.style.image}')`,
+  }
+  delete style.name
+  delete style.image
+  delete style.hoverImage
+
+  const hoverStyle = {
+    ...style,
+    background: `url('${props.style.hoverImage}')`
+  }
+
+
+  return (
+    <span className='window-button'>
+      <div className='normal' style={style} />
+      <div className='hover' style={hoverStyle} />
+    </span>
+  )
+}
+
 const TitleBar = (props) => {
   const style = {
     ...props.style,
@@ -6,10 +32,16 @@ const TitleBar = (props) => {
     left: 0,
     right: 0,
   }
+  delete style.buttons
 
   return (
     <div style={style}>
       <p style={{margin: 0, color: 'white'}}>Title</p>
+      {
+        props.style.buttons.map(button => (
+          <TitleBarButton key={button.name} style={button} />)
+        )
+      }
     </div>
   )
 } 
