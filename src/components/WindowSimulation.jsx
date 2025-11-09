@@ -49,7 +49,7 @@ const TitleBar = (props) => {
 const WindowSimulation = (props) => {
   const style = {
     ...props.position,
-    position: 'fixed',
+    position: 'absolute',
   }
 
   const contentStyle = {

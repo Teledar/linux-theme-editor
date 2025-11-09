@@ -1,0 +1,33 @@
+div.windowContainer {
+  position: absolute;
+  top: 0;
+  left: 200px;
+  right: 0;
+  bottom: 0;
+}
+
+div.settingsContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 180px;
+  padding: 10px;
+  background-color: goldenrod;
+}
+
+@media (max-width: 800px) {
+
+  div.windowContainer {
+    left: 0;
+  }
+
+  div.settingsContainer {
+    width: unset;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    display: none;
+  }
+}

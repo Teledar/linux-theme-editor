@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import WindowSimulation from './components/WindowSimulation'
+import './App.css'
 
 const defaultWindowStyle = {
   backgroundColor: 'white',
@@ -118,22 +119,28 @@ const defaultStyle = {
 
 const App = () => {
   const [style, setStyle] = useState(defaultStyle)
+  const [setting, setSetting] = useState('')
 
   return (
     <>
-      <h1>Linux Theme Editor</h1>
-      <WindowSimulation 
-        style={style.maximizedWindow}
-        position={{ top:0, left:0, right:0, bottom:0 }} 
-      />
-      <WindowSimulation 
-        style={style.unfocusedWindow}
-        position={{ top:40, left:40, right:10, bottom:10 }} 
-      />
-      <WindowSimulation 
-        style={style.window}
-        position={{ top:80, left:80, right:20, bottom:20 }} 
-      />
+      <div className='windowContainer'>
+        <WindowSimulation 
+          style={style.maximizedWindow}
+          position={{ top:0, left:0, right:0, bottom:0 }} 
+        />
+        <WindowSimulation 
+          style={style.unfocusedWindow}
+          position={{ top:40, left:40, right:40, bottom:40 }} 
+        />
+        <WindowSimulation 
+          style={style.window}
+          position={{ top:80, left:80, right:80, bottom:80 }} 
+        />
+      </div>
+      <div className='settingsContainer'>
+        <h1>{setting ? setting : 'Linux Theme Editor'}</h1>
+        <p>Create and edit Linux desktop themes in your browser.</p>
+      </div>
     </>
   )
 }
