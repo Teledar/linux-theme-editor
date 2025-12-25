@@ -9,3 +9,7 @@ span.window-button:hover div.normal {
 span.window-button:hover div.hover {
   display: block;
 }
+
+div.selector:hover, div.selector.selected {
+  border: 1px dashed black;
+}

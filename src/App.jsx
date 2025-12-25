@@ -4,6 +4,8 @@ import './App.css'
 
 const defaultWindowStyle = {
   backgroundColor: 'white',
+  borderBottomLeftRadius: 0,
+  borderBottomRightRadius: 0,
 }
 
 const defaultTitleBarStyle = {
@@ -14,7 +16,6 @@ const defaultTitleBarStyle = {
 const defaultWindowButtons = [
   {
     name: 'close',
-    position: 'absolute',
     top: 0,
     right: 0,
     width: 20,
@@ -24,7 +25,6 @@ const defaultWindowButtons = [
   },
   {
     name: 'minimize',
-    position: 'absolute',
     top: 0,
     right: 40,
     width: 20,
@@ -52,7 +52,6 @@ const defaultStyle = {
         ...defaultWindowButtons,
         {
           name: 'maximize',
-          position: 'absolute',
           top: 0,
           right: 20,
           width: 20,
@@ -80,7 +79,6 @@ const defaultStyle = {
         ...defaultWindowButtons,
         {
           name: 'maximize',
-          position: 'absolute',
           top: 0,
           right: 20,
           width: 20,
@@ -104,7 +102,6 @@ const defaultStyle = {
         ...defaultWindowButtons,
         {
           name: 'restore',
-          position: 'absolute',
           top: 0,
           right: 20,
           width: 20,

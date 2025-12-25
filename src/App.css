@@ -2,12 +2,14 @@ div.windowContainer {
   position: absolute;
   top: 0;
   left: 200px;
-  right: 0;
-  bottom: 0;
+  right: 0px;
+  bottom: 0px;
+  overflow: clip;
 }
 
 div.settingsContainer {
   position: absolute;
+  z-index: 2;
   top: 0;
   left: 0;
   bottom: 0;
