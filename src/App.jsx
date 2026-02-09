@@ -2,142 +2,92 @@ import { useState } from 'react'
 import WindowSimulation from './components/WindowSimulation'
 import './App.css'
 
-const defaultWindowStyle = {
-  backgroundColor: 'white',
-  borderBottomLeftRadius: 0,
-  borderBottomRightRadius: 0,
-}
+import defaultTheme from "./theme.json"
 
-const defaultTitleBarStyle = {
-  height: 20,
-  textAlign: 'center',
-}
-
-const defaultWindowButtons = [
-  {
-    name: 'close',
-    top: 0,
-    right: 0,
-    width: 20,
-    height: 20,
-    image: '/src/assets/close.svg',
-    hoverImage: '/src/assets/close-hover.svg',
-  },
-  {
-    name: 'minimize',
-    top: 0,
-    right: 40,
-    width: 20,
-    height: 20,
-    image: '/src/assets/minimize.svg',
-    hoverImage: '/src/assets/minimize-hover.svg',
-  },
-]
-
-const defaultStyle = {
-  window: {
-    ...defaultWindowStyle,
-    borderTop: 'none',
-    borderLeft: 'solid 2px black',
-    borderRight: 'solid 2px black',
-    borderBottom: 'solid 2px black',
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5,
-    titleBar: {
-      ...defaultTitleBarStyle,
-      backgroundColor: 'black',
-      borderTopLeftRadius: 5,
-      borderTopRightRadius: 5,
-      buttons: [
-        ...defaultWindowButtons,
-        {
-          name: 'maximize',
-          top: 0,
-          right: 20,
-          width: 20,
-          height: 20,
-          image: '/src/assets/maximize.svg',
-          hoverImage: '/src/assets/maximize-hover.svg',
-        }
-      ],
-    },
-  },
-  unfocusedWindow: {
-    ...defaultWindowStyle,
-    borderTop: 'none',
-    borderLeft: 'solid 2px gray',
-    borderRight: 'solid 2px gray',
-    borderBottom: 'solid 2px gray',
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5,
-    titleBar: {
-      ...defaultTitleBarStyle,
-      backgroundColor: 'dimgray',
-      borderTopLeftRadius: 5,
-      borderTopRightRadius: 5,
-      buttons: [
-        ...defaultWindowButtons,
-        {
-          name: 'maximize',
-          top: 0,
-          right: 20,
-          width: 20,
-          height: 20,
-          image: '/src/assets/maximize.svg',
-          hoverImage: '/src/assets/maximize-hover.svg',
-        },
-      ],
-    },
-  },
-  maximizedWindow: {
-    ...defaultWindowStyle,
-    borderTop: 'none',
-    borderLeft: 'none',
-    borderRight: 'none',
-    borderBottom: 'none',
-    titleBar: {
-      ...defaultTitleBarStyle,
-      backgroundColor: 'dimgray',
-      buttons: [
-        ...defaultWindowButtons,
-        {
-          name: 'restore',
-          top: 0,
-          right: 20,
-          width: 20,
-          height: 20,
-          image: '/src/assets/restore.svg',
-          hoverImage: '/src/assets/restore-hover.svg',
-        },
-      ],
-    },
-  },
+const SettingsContainer = ({settings}) => {
+  if (settings.length > 0) {
+    return (
+      <div className='settingsContainer'>
+        <h1>Linux Theme Editor</h1>
+        <ul>
+          {settings.map((setting, index) => {
+            return (
+              <li key={index}>
+                {setting.value} {setting.type}
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    )
+  }
+  return (
+    <div className='settingsContainer'>
+      <h1>Linux Theme Editor</h1>
+      <p>Create and edit Linux desktop themes in your browser.</p>
+    </div>
+  )
 }
 
 const App = () => {
-  const [style, setStyle] = useState(defaultStyle)
-  const [setting, setSetting] = useState('')
+  const [theme, setTheme] = useState(defaultTheme)
+  const [settings, setSettings] = useState([])
+  const [deselect, setDeselector] = useState(() => () => {})
+
+  const getProperty = (theme, size, active, name) => {
+    let property = null
+    if (theme.windows) {
+      if (theme.windows.default) {
+        property = theme.windows.default[name]
+      }
+      if (!property && theme.windows[active]) {
+        property = theme.windows[active][name]
+      }
+      if (!property && theme.windows[size]) {
+        property = theme.windows[size][name]
+      }
+    }
+    return { value: '', type: '', ...property }
+  }
+
+  const selectProperties = (theme, size, active, properties, deselector) => {
+    deselect()
+    setDeselector(() => deselector)
+    setSettings(
+      properties.map(
+        property => getProperty(theme, size, active, property)
+      ).filter(
+        property => property != null
+      )
+    )
+  }
 
   return (
     <>
       <div className='windowContainer'>
-        <WindowSimulation 
-          style={style.maximizedWindow}
-          position={{ top:0, left:0, right:0, bottom:0 }} 
+        <WindowSimulation
+          position={{ top:0, left:0, right:0, bottom:0 }}
+          getProperty={(name) => getProperty(theme, 'maximized', 'inactive', name)}
+          selectProperties={(properties, deselector) => selectProperties(
+            theme, 'maximized', 'inactive', properties, deselector
+          )}
         />
-        <WindowSimulation 
-          style={style.unfocusedWindow}
-          position={{ top:40, left:40, right:40, bottom:40 }} 
+        <WindowSimulation
+          position={{ top:40, left:40, right:40, bottom:40 }}
+          getProperty={(name) => getProperty(theme, 'small', 'inactive', name)}
+          selectProperties={(properties, deselector) => selectProperties(
+            theme, 'small', 'inactive', properties, deselector
+          )}
         />
-        <WindowSimulation 
-          style={style.window}
-          position={{ top:80, left:80, right:80, bottom:80 }} 
+        <WindowSimulation
+          position={{ top:80, left:80, right:80, bottom:80 }}
+          getProperty={(name) => getProperty(theme, 'small', 'active', name)}
+          selectProperties={(properties, deselector) => selectProperties(
+            theme, 'small', 'active', properties, deselector
+          )}
         />
       </div>
-      <div className='settingsContainer'>
-        <h1>{setting ? setting : 'Linux Theme Editor'}</h1>
-        <p>Create and edit Linux desktop themes in your browser.</p>
-      </div>
+      <SettingsContainer settings={settings} />
     </>
   )
 }

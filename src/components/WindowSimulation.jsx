@@ -1,68 +1,107 @@
+import { useState } from 'react'
+import { useContext } from 'react'
+import WindowContext from './WindowContext'
 import './WindowSimulation.css'
 
 const Selector = (props) => {
+  const [className, setClass] = useState('selector')
+  const context = useContext(WindowContext)
+
+  const select = () => {
+    setClass('selector selected')
+    context.selectProperties(props.properties, () => setClass('selector'))
+  }
+
   const style = {
     ...props.position,
     position: 'absolute',
     zIndex: 1,
     background: 'transparent',
   }
-  return <div className='selector' style={style} id={props.id}></div>
+  return <div className={className} style={style} id={props.id} onClick={select}></div>
 }
 
 const TitleBarButton = (props) => {
+  const context = useContext(WindowContext)
 
   const style = {
-    ...props.style,
+    top: 0,
+    width: context.getProperty('buttonWidth').value,
+    height: context.getProperty('buttonHeight').value,
     position: 'absolute',
-    background: `url('${props.style.image}')`,
-  }
-  delete style.name
-  delete style.image
-  delete style.hoverImage
-
-  const hoverStyle = {
-    ...style,
-    background: `url('${props.style.hoverImage}')`
   }
 
+  const imageStyle = {
+    ...style
+  }
+
+  const position = context.getProperty(props.name + 'ButtonPosition').value
+  if (position < 0) {
+    style.right = -position * 20 - 20
+  } else {
+    style.left = position * 20 - 20
+  }
 
   return (
-    <span className='window-button'>
-      <div className='normal' style={style} />
-      <div className='hover' style={hoverStyle} />
-      <Selector id={props.style.name}
+    <span className='window-button' style={style}>
+      <div className='normal' style={{
+        ...imageStyle,
+        background: `url('${context.getProperty(props.name + 'Icon').value}')`
+      }} />
+      <div className='hover' style={{
+        ...imageStyle,
+        background: `url('${context.getProperty(props.name + 'IconHover').value}')`
+      }} />
+      <Selector id={props.name}
+        properties={[props.name + 'Icon', props.name + 'IconHover', 
+          'buttonWidth', 'buttonHeight']}
         position={{
-          top: style.top - 2,
-          right: style.right - 2,
-          width: style.width + 3,
-          height: style.height + 3,
+          top: -2,
+          left: -2,
+          right: -2,
+          bottom: -2,
         }} />
     </span>
   )
 }
 
 const TitleBar = (props) => {
+  const context = useContext(WindowContext)
+
+  const borderRadius = context.getProperty('topRadius').value
+
   const style = {
-    ...props.style,
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
+    height: context.getProperty('titlebarHeight').value,
+    textAlign: context.getProperty('titleTextAlign').value,
+    backgroundColor: context.getProperty('titlebarColor').value,
+    borderTopLeftRadius: borderRadius,
+    borderTopRightRadius: borderRadius,
   }
-  delete style.buttons
 
   return (
     <div style={style}>
       <Selector id='titleBar'
+        properties={['titlebarHeight', 'titlebarColor']}
         position={{
           top: -2,
           left: -2,
           right: -2,
-          height: style.height + 3,
+          bottom: -2,
         }} />
-      <p style={{margin: 0, color: 'white'}}>Title</p>
+      <p style={{
+          margin: 0, 
+          color: context.getProperty('titleTextColor').value,
+          fontFamily: context.getProperty('font').value,
+          fontSize: context.getProperty('titleTextSize').value
+        }}>
+          Title
+      </p>
       <Selector id='windowTitle'
+        properties={['titleTextAlign', 'titleTextSize', 'font']}
         position={{
           top: 1,
           bottom: 1,
@@ -70,12 +109,11 @@ const TitleBar = (props) => {
           left: '50%',
           transform: 'translate(-50%, 0%)',
         }} />
-      {
-        props.style.buttons.map(button => (
-          <TitleBarButton key={button.name} style={button} />)
-        )
-      }
+      <TitleBarButton name={'minimize'} />
+      <TitleBarButton name={'maximize'} />
+      <TitleBarButton name={'close'} />
       <Selector id='topLeftRadius'
+        properties={['topRadius']}
         position={{
           left: -8,
           top: -8,
@@ -83,6 +121,7 @@ const TitleBar = (props) => {
           height: 16, 
         }} />
       <Selector id='topRightRadius'
+        properties={['topRadius']}
         position={{
           right: -8,
           top: -8,
@@ -99,63 +138,84 @@ const WindowSimulation = (props) => {
     position: 'absolute',
   }
 
+  const border = 'solid ' + props.getProperty('borderWidth').value + ' '
+    + props.getProperty('borderColor').value
+  const borderRadius = props.getProperty('bottomRadius').value
+  const titlebarHeight = props.getProperty('titlebarHeight').value
+  
   const contentStyle = {
-    ...props.style,
     position: 'absolute',
-    top: props.style.titleBar.height,
+    top: titlebarHeight,
     left: 0,
     right: 0,
     bottom: 0,
+    backgroundColor: props.getProperty('background').value,
+    borderTop: 'none',
+    borderLeft: border,
+    borderRight: border,
+    borderBottom: border,
+    borderBottomLeftRadius: borderRadius,
+    borderBottomRightRadius: borderRadius,
   }
-  delete contentStyle.titleBar
 
   return (
     <div style={style}>
-      <TitleBar style={props.style.titleBar} />
-      <div style={contentStyle}>
-        <Selector id='windowArea'
+      <WindowContext value={{
+        getProperty: props.getProperty,
+        selectProperties: props.selectProperties
+      }}>
+        <TitleBar />
+        <div style={contentStyle}>
+          <Selector id='windowArea'
+            properties={['background']}
+            position={{
+              top: 2,
+              left: 2,
+              right: 2,
+              bottom: 2,
+            }} />
+        </div>
+        <Selector id='leftBorder'
+          properties={['borderColor', 'borderWidth']}
           position={{
-            top: 2,
-            left: 2,
-            right: 2,
-            bottom: 2,
+            top: titlebarHeight,
+            left: -8,
+            bottom: 'max(8px,' + borderRadius + ')',
+            width: 16, 
           }} />
-      </div>
-      <Selector id='leftBorder'
-        position={{
-          top: props.style.titleBar.height,
-          left: -8,
-          bottom: Math.max(8, props.style.borderBottomLeftRadius),
-          width: 16, 
-        }} />
-      <Selector id='rightBorder'
-        position={{
-          top: props.style.titleBar.height,
-          right: -8,
-          bottom: Math.max(8, props.style.borderBottomLeftRadius),
-          width: 16, 
-        }} />
-      <Selector id='bottomBorder'
-        position={{
-          left: Math.max(8, props.style.borderBottomLeftRadius),
-          right: Math.max(8, props.style.borderBottomLeftRadius),
-          bottom: -8,
-          height: 16, 
-        }} />
-      <Selector id='bottomLeftRadius'
-        position={{
-          left: -8,
-          bottom: -8,
-          width: 16,
-          height: 16, 
-        }} />
-      <Selector id='bottomRightRadius'
-        position={{
-          right: -8,
-          bottom: -8,
-          width: 16,
-          height: 16, 
-        }} />
+        <Selector id='rightBorder'
+          properties={['borderColor', 'borderWidth']}
+          position={{
+            top: titlebarHeight,
+            right: -8,
+            bottom: 'max(8px,' + borderRadius + ')',
+            width: 16, 
+          }} />
+        <Selector id='bottomBorder'
+          properties={['borderColor', 'borderWidth']}
+          position={{
+            left: 'max(8px,' + borderRadius + ')',
+            right: 'max(8px,' + borderRadius + ')',
+            bottom: -8,
+            height: 16, 
+          }} />
+        <Selector id='bottomLeftRadius'
+          properties={['bottomRadius']}
+          position={{
+            left: -8,
+            bottom: -8,
+            width: 16,
+            height: 16, 
+          }} />
+        <Selector id='bottomRightRadius'
+          properties={['bottomRadius']}
+          position={{
+            right: -8,
+            bottom: -8,
+            width: 16,
+            height: 16, 
+          }} />
+      </WindowContext>
     </div>
   )
 }
