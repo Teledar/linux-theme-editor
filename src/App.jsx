@@ -5,19 +5,28 @@ import './App.css'
 import defaultTheme from "./theme.json"
 
 const SettingsContainer = ({settings}) => {
-  if (settings.length > 0) {
+  if (Object.keys(settings).length > 0) {
     return (
       <div className='settingsContainer'>
         <h1>Linux Theme Editor</h1>
-        <ul>
-          {settings.map((setting, index) => {
+        {
+          Object.keys(settings).map((group, index) => {
             return (
-              <li key={index}>
-                {setting.group} {setting.description}
-              </li>
+              <div key={index}>
+                <h2>{group}</h2>
+                <ul>
+                  {settings[group].map((setting, index) => {
+                    return (
+                      <li key={index}>
+                        {setting.description}: {setting.value}
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
             )
-          })}
-        </ul>
+          })
+        }
       </div>
     )
   }
@@ -31,7 +40,7 @@ const SettingsContainer = ({settings}) => {
 
 const App = () => {
   const [theme, setTheme] = useState(defaultTheme)
-  const [settings, setSettings] = useState([])
+  const [settings, setSettings] = useState({})
   const [deselect, setDeselector] = useState(() => () => {})
 
   const title = name => name[0].toUpperCase() + name.substring(1)
@@ -60,7 +69,14 @@ const App = () => {
         property => getProperty(theme, size, active, property)
       ).filter(
         property => property != null
-      )
+      ).reduce((map, property) => {
+        if (map[property.group]) {
+          map[property.group] = [ property, ...map[property.group] ]
+        } else {
+          map[property.group] = [ property ]
+        }
+        return map
+      }, {})
     )
   }
 
