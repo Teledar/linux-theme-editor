@@ -13,7 +13,7 @@ const SettingsContainer = ({settings}) => {
           {settings.map((setting, index) => {
             return (
               <li key={index}>
-                {setting.value} {setting.type}
+                {setting.group} {setting.description}
               </li>
             )
           })}
@@ -34,20 +34,22 @@ const App = () => {
   const [settings, setSettings] = useState([])
   const [deselect, setDeselector] = useState(() => () => {})
 
+  const title = name => name[0].toUpperCase() + name.substring(1)
+
   const getProperty = (theme, size, active, name) => {
-    let property = null
+    let property = { group: '', value: '', type: '', description: '' }
     if (theme.windows) {
       if (theme.windows.default) {
-        property = theme.windows.default[name]
+        property = { group: "Window", ...theme.windows.default[name] }
       }
-      if (!property && theme.windows[active]) {
-        property = theme.windows[active][name]
+      if (!property.type && theme.windows[active]) {
+        property = { group: title(active) + " window", ...theme.windows[active][name] }
       }
-      if (!property && theme.windows[size]) {
-        property = theme.windows[size][name]
+      if (!property.type && theme.windows[size]) {
+        property = { group: title(size) + " window", ...theme.windows[size][name] }
       }
     }
-    return { value: '', type: '', ...property }
+    return property
   }
 
   const selectProperties = (theme, size, active, properties, deselector) => {

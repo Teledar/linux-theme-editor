@@ -3,131 +3,161 @@
         "default": {
             "font": {
                 "value": "",
-                "type": "font"
+                "type": "font",
+                "description": "Font"
             },
             "background": {
                 "value": "white",
-                "type": "color"
+                "type": "color",
+                "description": "Background color"
             },
             "titlebarHeight": {
                 "value": "20px",
-                "type": "length"
+                "type": "length",
+                "description": "Titlebar height"
             },
             "titleTextAlign": {
                 "value": "center",
-                "type": "alignment"
+                "type": "alignment",
+                "description": "Title alignment"
             },
             "titleTextSize": {
                 "value": "15px",
-                "type": "length"
+                "type": "length",
+                "description": "Title size"
             },
             "buttonWidth": {
                 "value": "20px",
-                "type": "length"
+                "type": "length",
+                "description": "Corner button width"
             },
             "buttonHeight": {
                 "value": "20px",
-                "type": "length"
+                "type": "length",
+                "description": "Corner button height"
             },
             "closeButtonPosition": {
                 "value": -1,
-                "type": "order"
+                "type": "order",
+                "description": "Close button position"
             },
             "maximizeButtonPosition": {
                 "value": -2,
-                "type": "order"
+                "type": "order",
+                "description": "Maximize button position"
             },
             "minimizeButtonPosition": {
                 "value": -3,
-                "type": "order"
+                "type": "order",
+                "description": "Minimize button position"
             },
             "closeIcon": {
                 "value": "/src/assets/close.svg",
-                "type": "image"
+                "type": "image",
+                "description": "Close icon"
             },
             "closeIconHover": {
                 "value": "/src/assets/close-hover.svg",
-                "type": "image"
+                "type": "image",
+                "description": "Close hover icon"
             },
             "minimizeIcon": {
                 "value": "/src/assets/minimize.svg",
-                "type": "image"
+                "type": "image",
+                "description": "Minimize icon"
             },
             "minimizeIconHover": {
                 "value": "/src/assets/minimize-hover.svg",
-                "type": "image"
+                "type": "image",
+                "description": "Minimize hover icon"
             }
         },
         "active": {
             "borderColor": {
                 "value": "black",
-                "type": "color"
+                "type": "color",
+                "description": "Border color"
             },
             "titlebarColor": {
                 "value": "black",
-                "type": "color"
+                "type": "color",
+                "description": "Titlebar color"
             },
             "titleTextColor": {
                 "value": "white",
-                "type": "color"
+                "type": "color",
+                "description": "Title color"
             }
         },
         "inactive": {
             "borderColor": {
                 "value": "dimgray",
-                "type": "color"
+                "type": "color",
+                "description": "Border color"
             },
             "titlebarColor": {
                 "value": "dimgray",
-                "type": "color"
+                "type": "color",
+                "description": "Titlebar color"
             },
             "titleTextColor": {
                 "value": "white",
-                "type": "color"
+                "type": "color",
+                "description": "Title color"
             }
         },
         "small": {
             "bottomRadius": {
                 "value": "5px",
-                "type": "length"
+                "type": "length",
+                "description": "Bottom radius"
             },
             "topRadius": {
                 "value": "5px",
-                "type": "length"
+                "type": "length",
+                "description": "Top color"
             },
             "borderWidth": {
                 "value": "2px",
-                "type": "length"
+                "type": "length",
+                "description": "Border width"
             },
             "maximizeIcon": {
                 "value": "/src/assets/maximize.svg",
-                "type": "image"
+                "type": "image",
+                "description": "Maximize icon"
             },
             "maximizeIconHover": {
                 "value": "/src/assets/maximize-hover.svg",
-                "type": "image"
+                "type": "image",
+                "description": "Maximize hover icon"
             }
         },
         "maximized": {
             "bottomRadius": {
                 "value": "0px",
-                "type": "length"
+                "type": "length",
+                "description": "Bottom radius"
             },
             "topRadius": {
                 "value": "0px",
-                "type": "length"
+                "type": "length",
+                "description": "Top radius"
             },
             "borderWidth": {
                 "value": "0px",
-                "type": "length"
+                "type": "length",
+                "description": "Border width"
             },
             "maximizeIcon": {
                 "value": "/src/assets/restore.svg",
-                "type": "image"
+                "type": "image",
+                "description": "Maximize icon"
             },
             "maximizeIconHover": {
                 "value": "/src/assets/restore-hover.svg",
-                "type": "image"
+                "type": "image",
+                "description": "Minimize hover icon"
             }
         }
     }
