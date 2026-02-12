@@ -7,12 +7,12 @@
                 "description": "Font"
             },
             "background": {
-                "value": "white",
+                "value": "#ffffff",
                 "type": "color",
                 "description": "Background color"
             },
             "titlebarHeight": {
-                "value": "20px",
+                "value": 20,
                 "type": "length",
                 "description": "Titlebar height"
             },
@@ -22,17 +22,17 @@
                 "description": "Title alignment"
             },
             "titleTextSize": {
-                "value": "15px",
+                "value": 16,
                 "type": "length",
                 "description": "Title size"
             },
             "buttonWidth": {
-                "value": "20px",
+                "value": 20,
                 "type": "length",
                 "description": "Corner button width"
             },
             "buttonHeight": {
-                "value": "20px",
+                "value": 20,
                 "type": "length",
                 "description": "Corner button height"
             },
@@ -74,51 +74,51 @@
         },
         "active": {
             "borderColor": {
-                "value": "black",
+                "value": "#000000",
                 "type": "color",
                 "description": "Border color"
             },
             "titlebarColor": {
-                "value": "black",
+                "value": "#000000",
                 "type": "color",
                 "description": "Titlebar color"
             },
             "titleTextColor": {
-                "value": "white",
+                "value": "#ffffff",
                 "type": "color",
                 "description": "Title color"
             }
         },
         "inactive": {
             "borderColor": {
-                "value": "dimgray",
+                "value": "#404040",
                 "type": "color",
                 "description": "Border color"
             },
             "titlebarColor": {
-                "value": "dimgray",
+                "value": "#404040",
                 "type": "color",
                 "description": "Titlebar color"
             },
             "titleTextColor": {
-                "value": "white",
+                "value": "#ffffff",
                 "type": "color",
                 "description": "Title color"
             }
         },
         "small": {
             "bottomRadius": {
-                "value": "5px",
+                "value": 5,
                 "type": "length",
                 "description": "Bottom radius"
             },
             "topRadius": {
-                "value": "5px",
+                "value": 5,
                 "type": "length",
-                "description": "Top color"
+                "description": "Top radius"
             },
             "borderWidth": {
-                "value": "2px",
+                "value": 2,
                 "type": "length",
                 "description": "Border width"
             },
@@ -135,17 +135,17 @@
         },
         "maximized": {
             "bottomRadius": {
-                "value": "0px",
+                "value": 0,
                 "type": "length",
                 "description": "Bottom radius"
             },
             "topRadius": {
-                "value": "0px",
+                "value": 0,
                 "type": "length",
                 "description": "Top radius"
             },
             "borderWidth": {
-                "value": "0px",
+                "value": 0,
                 "type": "length",
                 "description": "Border width"
             },

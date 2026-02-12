@@ -37,9 +37,9 @@ const TitleBarButton = (props) => {
 
   const position = context.getProperty(props.name + 'ButtonPosition').value
   if (position < 0) {
-    style.right = -position * 20 - 20
+    style.right = -position * style.width - style.width
   } else {
-    style.left = position * 20 - 20
+    style.left = position * style.width - style.width
   }
 
   return (
@@ -138,7 +138,7 @@ const WindowSimulation = (props) => {
     position: 'absolute',
   }
 
-  const border = 'solid ' + props.getProperty('borderWidth').value + ' '
+  const border = 'solid ' + props.getProperty('borderWidth').value + 'px '
     + props.getProperty('borderColor').value
   const borderRadius = props.getProperty('bottomRadius').value
   const titlebarHeight = props.getProperty('titlebarHeight').value
@@ -180,7 +180,7 @@ const WindowSimulation = (props) => {
           position={{
             top: titlebarHeight,
             left: -8,
-            bottom: 'max(8px,' + borderRadius + ')',
+            bottom: 8,
             width: 16, 
           }} />
         <Selector id='rightBorder'
@@ -188,14 +188,14 @@ const WindowSimulation = (props) => {
           position={{
             top: titlebarHeight,
             right: -8,
-            bottom: 'max(8px,' + borderRadius + ')',
+            bottom: 8,
             width: 16, 
           }} />
         <Selector id='bottomBorder'
           properties={['borderColor', 'borderWidth']}
           position={{
-            left: 'max(8px,' + borderRadius + ')',
-            right: 'max(8px,' + borderRadius + ')',
+            left: 8,
+            right: 8,
             bottom: -8,
             height: 16, 
           }} />

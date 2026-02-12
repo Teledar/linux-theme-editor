@@ -1,42 +1,9 @@
 import { useState } from 'react'
 import WindowSimulation from './components/WindowSimulation'
+import SettingsContainer from './components/SettingsContainer'
 import './App.css'
 
-import defaultTheme from "./theme.json"
-
-const SettingsContainer = ({settings}) => {
-  if (Object.keys(settings).length > 0) {
-    return (
-      <div className='settingsContainer'>
-        <h1>Linux Theme Editor</h1>
-        {
-          Object.keys(settings).map((group, index) => {
-            return (
-              <div key={index}>
-                <h2>{group}</h2>
-                <ul>
-                  {settings[group].map((setting, index) => {
-                    return (
-                      <li key={index}>
-                        {setting.description}: {setting.value}
-                      </li>
-                    )
-                  })}
-                </ul>
-              </div>
-            )
-          })
-        }
-      </div>
-    )
-  }
-  return (
-    <div className='settingsContainer'>
-      <h1>Linux Theme Editor</h1>
-      <p>Create and edit Linux desktop themes in your browser.</p>
-    </div>
-  )
-}
+import defaultTheme from './theme.json'
 
 const App = () => {
   const [theme, setTheme] = useState(defaultTheme)
@@ -45,28 +12,66 @@ const App = () => {
 
   const title = name => name[0].toUpperCase() + name.substring(1)
 
-  const getProperty = (theme, size, active, name) => {
-    let property = { group: '', value: '', type: '', description: '' }
+  const getProperty = (size, active, name) => {
+    let property = {
+      parent: '',
+      name: name,
+      group: '', 
+      value: '', 
+      type: '', 
+      description: '' ,
+      setter: (value) => {}
+    }
     if (theme.windows) {
       if (theme.windows.default) {
-        property = { group: "Window", ...theme.windows.default[name] }
+        property = {
+          parent: 'default',
+          name: name,
+          group: "Window", 
+          ...theme.windows.default[name],
+          setter: value => {
+            const newTheme = { ...theme }
+            newTheme.windows.default[name].value = value
+            setTheme(newTheme)
+          }
+        }
       }
       if (!property.type && theme.windows[active]) {
-        property = { group: title(active) + " window", ...theme.windows[active][name] }
+        property = {
+          parent: active,
+          name: name,
+          group: title(active) + " window",
+          ...theme.windows[active][name],
+          setter: value => {
+            const newTheme = { ...theme }
+            newTheme.windows[active][name].value = value
+            setTheme(newTheme)
+          }
+        }
       }
       if (!property.type && theme.windows[size]) {
-        property = { group: title(size) + " window", ...theme.windows[size][name] }
+        property = {
+          parent: size,
+          name: name, 
+          group: title(size) + " window", 
+          ...theme.windows[size][name],
+          setter: value => {
+            const newTheme = { ...theme }
+            newTheme.windows[size][name].value = value
+            setTheme(newTheme)
+          }
+        }
       }
     }
     return property
   }
 
-  const selectProperties = (theme, size, active, properties, deselector) => {
+  const selectProperties = (size, active, properties, deselector) => {
     deselect()
     setDeselector(() => deselector)
     setSettings(
       properties.map(
-        property => getProperty(theme, size, active, property)
+        property => getProperty(size, active, property)
       ).filter(
         property => property != null
       ).reduce((map, property) => {
@@ -85,23 +90,23 @@ const App = () => {
       <div className='windowContainer'>
         <WindowSimulation
           position={{ top:0, left:0, right:0, bottom:0 }}
-          getProperty={(name) => getProperty(theme, 'maximized', 'inactive', name)}
+          getProperty={(name) => getProperty('maximized', 'inactive', name)}
           selectProperties={(properties, deselector) => selectProperties(
-            theme, 'maximized', 'inactive', properties, deselector
+            'maximized', 'inactive', properties, deselector
           )}
         />
         <WindowSimulation
           position={{ top:40, left:40, right:40, bottom:40 }}
-          getProperty={(name) => getProperty(theme, 'small', 'inactive', name)}
+          getProperty={(name) => getProperty('small', 'inactive', name)}
           selectProperties={(properties, deselector) => selectProperties(
-            theme, 'small', 'inactive', properties, deselector
+            'small', 'inactive', properties, deselector
           )}
         />
         <WindowSimulation
           position={{ top:80, left:80, right:80, bottom:80 }}
-          getProperty={(name) => getProperty(theme, 'small', 'active', name)}
+          getProperty={(name) => getProperty('small', 'active', name)}
           selectProperties={(properties, deselector) => selectProperties(
-            theme, 'small', 'active', properties, deselector
+            'small', 'active', properties, deselector
           )}
         />
       </div>
